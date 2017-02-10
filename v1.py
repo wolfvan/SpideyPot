@@ -22,6 +22,13 @@ def main():
 			time.sleep(1)
 			filea.seek(where)
 		else:
+                	r2 = r2pipe.open("/opt/dionaea/var/dionaea/binaries/"+bin)
+			r2.cmd('aa')
+			a = (r2.cmd('ixx'))
+			with open("output.log", "a") as outfile:
+				outfile.write(a)
+				outfile.close
+
 
 			if "EXEC" in line:
 				line2 = line.split("     ")
