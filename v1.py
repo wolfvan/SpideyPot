@@ -2,11 +2,8 @@ import os
 import json
 import r2pipe
         
-b = os.listdir("/opt/dionaea/var/dionaea/binaries/")
+
 dic = {}
-
-os.system("ls /opt/dionaea/var/dionaea/binaries/ >> testtt.txt")
-
 
 def main():
 
