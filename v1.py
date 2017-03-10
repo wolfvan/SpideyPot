@@ -1,61 +1,52 @@
+import datetime
+import date
+import elasticsearch
 import os
-import json
 import r2pipe
-        
 
-dic = {}
+def main()
+	chk()
 
-def main():
 
+def chk():
+	binaries= []
+	dirs = [“/opt/dionaea/var/binaries/”, “/var/log/hontel/”]
 	while 1:
-
-		os.system("ls /opt/dionaea/var/dionaea/binaries/ >> reg_dio.txt")
-		os.system("ls /var/log/hontel/ >> reg_hontel.txt")
-		filea = open("reg_dio.txt", "r")
-		fileb = open("reg_hontel.txt", "r")
-		where = filea.tell()
-		line = filea.readline()
-		if not line:
-			time.sleep(1)
-			filea.seek(where)
-		else:
-                	r2 = r2pipe.open("/opt/dionaea/var/dionaea/binaries/"+bin)
-			r2.cmd('aa')
-			a = (r2.cmd('ixx'))
-			with open("output.log", "a") as outfile:
-				outfile.write(a)
-				outfile.close
-
-
-			if "EXEC" in line:
-				line2 = line.split("     ")
-				type =  line2[1]
-				dic["type"]=type[:-1]
-				#print "type: "+type
-				#print dic
-			elif "arch" in line:
-				line2 = line.split("     ")
-				arch =  line2[1][:-1]
-				dic["arch"]=arch
-			elif "machine" in line:
-				line2 = line.split("  ")
-				machine =  line2[1]
-				dic["machine"]= machine[:-1]
-			elif "os" in line:
-				line2 = line.split("       ")
-				os =  line2[1]
-				dic["os"]= os[:-1]
-			elif "compiled" in line:
-				line2 = line.split(" ")
-				compiled =  line2[1:]
-				dic["compiled"]= compiled[:-1]
-			elif "file" in line:
-				line2 = line.split(" ")
-				file =  line2[1]
-				dic["file"]= file[:-1]
-				#print "type: "+type
-				print dic
+		for dir in dirs:
+			a1 = os.listdir(dir)
+			for i in a1:
+				if i not in binaries:
+					anal_bin(dir+i)
+					binaries.append(i)
 			
-			
-if __name__ == __main__:
+		sleep(60)
+
+
+def anal_bin(bin):
+	anl = r2pipe.open(bin)
+	infor = anl.cmd("ixxj")
+	ctime = generate_time
+	infor_time = append_time(infor, ctime)
+	export_json(infor)
+
+
+def generate_time(bin):
+	import datetime
+	ts = time.time()
+	st = datetime.datetime.fromtimestamp(ts).strftime(“%Y-%m-%d %H:%M:%S”)
+	return st
+
+def append_time(infor, ctime):
+	with open(infor, mode = “w”, encoding = “utf-8”) as j:
+		json.dump([], j)
+		actime = {“timestamp” : ctime}
+		k.append(actime)
+		json.dump(k, j)
+	return j
+
+def export_json(infor):
+	res.index(index= “binaries_honeypot”, doc_type= “json”, id=1, body=infor)
+
+
+if __init__ == "__main__":
 	main()
