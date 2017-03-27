@@ -3,6 +3,7 @@ import date
 import elasticsearch
 import os
 import r2pipe
+import json
 
 def main()
 	chk()
@@ -25,8 +26,9 @@ def chk():
 def anal_bin(bin):
 	anl = r2pipe.open(bin)
 	infor = anl.cmd("ixxj")
+	inforj = json.loads(infor)
 	ctime = generate_time
-	infor_time = append_time(infor, ctime)
+	infor_time = append_time(inforj, ctime)
 	export_json(infor)
 
 
