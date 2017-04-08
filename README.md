@@ -11,3 +11,5 @@ Some of this functions are:
 	- Sandboxing support
 	
 	- Regex support
+	
+	- Telegram bot support
