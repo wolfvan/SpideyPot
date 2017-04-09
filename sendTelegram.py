@@ -2,12 +2,14 @@ import sys
 import requests
 import time
 import os
+import logging
 
+LOG_FILENAME = "spideypot.log"
 
 class bot:
     def __init__(self, token, chat_id):
         self.token = "bot351510771:AAHj4t9zBHsh1WA_s1j0vLATF7K2by4lD2M"
-        self.chat_id = 351510771
+        self.chat_id = 144383810
         text = "Results of Mirai"
 
     def sendPostMessage(self, text):
@@ -16,11 +18,13 @@ class bot:
 
 
 
-
 def main():
+	logging.basicConfig(filename=LOG_FILENAME,level=logging.DEBUG)
+	logging.debug("[+] Starting SpideyPot")
 	while 1:
+		logging.debug("[+] Checking...")
 		daemon()
-		sleep(600)
+		time.sleep(600)
 
 def daemon():
 	binaries = os.listdir("/var/log/hontel")
@@ -30,9 +34,7 @@ def daemon():
 		except:
 			pass
 		flag = checkRegistry(md5)
-		if flag == 0:
-			mdWrite(md5)
-			sendTel(md5)
+			
 
 
 def checkRegistry(md5):
@@ -42,18 +44,21 @@ def checkRegistry(md5):
 		if md5 in line:
 			flag = 1
 	if flag == 0:
+		logging.debug("[+] New Sample Found "+ md5)
 		md5Write(md5)
+		sendTel(md5)
 	return flag
 
 
 def md5Write(md5):
 	f = open("registry.txt", "a")
-	f.write(md5)
+	f.write(md5+"\n")
 
 
 def sendTel(md5):
+    logging.debug("[+] Sending Telegram...")
     a = bot(1,2)
-    a.sendPostMessage(f.read())
+    a.sendPostMessage(md5)
 
 
 if __name__ == "__main__":
