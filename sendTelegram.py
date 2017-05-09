@@ -8,7 +8,7 @@ LOG_FILENAME = "spideypot.log"
 
 class bot:
     def __init__(self, token, chat_id):
-        self.token = "bot351510771:AAHj4t9zBHsh1WA_s1j0vLATF7K2by4lD2M"
+        #self.token 
         self.chat_id = 144383810
         text = "Results of Mirai"
 
